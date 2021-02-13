@@ -35,7 +35,7 @@ class Razorpay {
   }
 
   /// Opens Razorpay checkout
-  void open(Map<String, dynamic> options) async {
+  Future open(Map<String, dynamic> options) async {
     Map<String, dynamic> validationResult = _validateOptions(options);
 
     if (!validationResult['success']) {
@@ -50,16 +50,16 @@ class Razorpay {
     }
 
     var response = await _channel.invokeMethod('open', options);
+    print("response=>>>>>>>>>>> $response");
+
     _handleResult(response);
+    return response;
   }
 
   /// Handles checkout response from platform
   void _handleResult(Map<dynamic, dynamic> response) {
     String eventName;
     Map<dynamic, dynamic> data = response["data"];
-
-    logger.log(Level.debug, response['type']);
-    logger.log(Level.debug, data);
 
     dynamic payload;
 
